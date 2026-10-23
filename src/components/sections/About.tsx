@@ -2,6 +2,13 @@ import { personal } from '../../data/data';
 import { Reveal, StaggerGroup, staggerItem } from '../ui/Reveal';
 import { motion } from 'motion/react';
 import { hasValue } from '../../lib/utils';
+import { Code2, Target, Flame } from 'lucide-react';
+
+const calloutStyle: Record<string, { Icon: typeof Code2; color: string }> = {
+  build: { Icon: Code2, color: '#8B6CFF' },
+  focus: { Icon: Target, color: '#00B8C9' },
+  drive: { Icon: Flame, color: '#D1456A' },
+};
 
 export function About() {
   return (
@@ -63,7 +70,7 @@ export function About() {
 
           {hasValue(personal.profileImage) && (
             <Reveal delay={0.1} className="lg:col-span-3">
-              <div className="relative mx-auto max-w-[240px] lg:max-w-none">
+              <div className="relative mx-auto max-w-[260px] lg:max-w-none">
                 <div className="absolute -inset-3 -z-10 rotate-2 rounded-[2rem] border border-dashed border-accent-coral/40" />
                 <div className="absolute -inset-3 -z-10 -rotate-1 rounded-[2rem] bg-accent-violet/10" />
                 <img
@@ -72,6 +79,9 @@ export function About() {
                   className="aspect-[3/4] w-full rounded-3xl object-cover shadow-xl"
                   loading="lazy"
                 />
+                <span className="absolute bottom-3 left-1/2 w-max -translate-x-1/2 rounded-full border border-paper-ink/10 bg-paper/95 px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-paper-ink/70 shadow-md backdrop-blur">
+                  Adobe University Hackathon 2026
+                </span>
               </div>
             </Reveal>
           )}
@@ -82,20 +92,33 @@ export function About() {
               hasValue(personal.profileImage) ? 'lg:col-span-5' : 'lg:col-span-7 lg:col-start-6 lg:grid-cols-3'
             }`}
           >
-            {personal.aboutCallouts.map((callout, i) => (
-              <motion.div
-                key={callout.id}
-                variants={staggerItem}
-                whileHover={{ y: -4 }}
-                className="flex flex-col rounded-3xl border border-paper-ink/10 bg-paper-dim/40 p-6"
-              >
-                <span className="font-mono text-xs" style={{ color: ['#8B6CFF', '#00B8C9', '#D1456A'][i % 3] }}>
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-                <h3 className="mt-4 font-display text-lg font-semibold">{callout.label}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-paper-ink/70">{callout.text}</p>
-              </motion.div>
-            ))}
+            {personal.aboutCallouts.map((callout, i) => {
+              const style = calloutStyle[callout.id] ?? { Icon: Code2, color: '#8B6CFF' };
+              return (
+                <motion.div
+                  key={callout.id}
+                  variants={staggerItem}
+                  whileHover={{ y: -4 }}
+                  className="group relative flex flex-col overflow-hidden rounded-3xl border border-paper-ink/10 bg-paper-dim/40 p-6"
+                >
+                  <div
+                    className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-40"
+                    style={{ backgroundColor: style.color }}
+                  />
+                  <div className="relative flex items-center justify-between">
+                    <span
+                      className="flex h-10 w-10 items-center justify-center rounded-2xl"
+                      style={{ backgroundColor: `${style.color}1F` }}
+                    >
+                      <style.Icon size={18} color={style.color} strokeWidth={1.75} />
+                    </span>
+                    <span className="font-mono text-xs text-paper-ink/40">{String(i + 1).padStart(2, '0')}</span>
+                  </div>
+                  <h3 className="relative mt-4 font-display text-lg font-semibold">{callout.label}</h3>
+                  <p className="relative mt-3 text-sm leading-relaxed text-paper-ink/70">{callout.text}</p>
+                </motion.div>
+              );
+            })}
           </StaggerGroup>
         </div>
       </div>

@@ -57,9 +57,18 @@ export interface Project {
   description: string;
   highlights?: string[];
   stats?: ProjectStat[];
+  // Full placement text (e.g. "Winner — AI for All Hackathon 2026"),
+  // rendered as a chip on the card — not just mentioned in prose.
+  award?: string;
+  // Short version (e.g. "Winner" or "Top 8") for the compact corner badge
+  // on the card image, where there's no room for the full text.
+  awardBadge?: string;
   role?: string;
   image?: string;
   gallery?: string[];
+  // Google Drive share link for a demo video — rendered inline in the
+  // project modal via DriveEmbed, not just linked out.
+  demoVideo?: string;
   technologies: string[];
   category: string;
   github?: string;

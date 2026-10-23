@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import type { PointerEvent } from 'react';
 import { motion, useMotionValue, useSpring } from 'motion/react';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Trophy } from 'lucide-react';
 import type { Project } from '../../data/types';
 import { accentMap, hasValue } from '../../lib/utils';
 import { ProjectVisual } from '../ui/ProjectVisual';
@@ -73,6 +73,11 @@ export function FeaturedProjectCard({ project, index, onOpen }: ProjectCardProps
         <div className="absolute left-5 top-5 flex items-center gap-2 rounded-full border border-base-line/60 bg-base/60 px-3 py-1.5 font-mono text-[11px] uppercase tracking-wide text-ink backdrop-blur">
           {project.status}
         </div>
+        {project.awardBadge && (
+          <div className="absolute right-5 top-5 flex items-center gap-1.5 rounded-full border border-accent-amber/50 bg-base/70 px-3 py-1.5 font-mono text-[11px] uppercase tracking-wide text-accent-amber backdrop-blur">
+            <Trophy size={12} /> {project.awardBadge}
+          </div>
+        )}
       </div>
 
       <div className={`lg:col-span-5 ${reversed ? 'lg:order-1 lg:col-start-1' : 'lg:col-start-8'}`}>
@@ -86,6 +91,13 @@ export function FeaturedProjectCard({ project, index, onOpen }: ProjectCardProps
           {project.title}
         </h3>
         <p className="mt-1.5 text-ink-dim">{project.subtitle}</p>
+
+        {project.award && (
+          <div className="mt-3 inline-flex items-center gap-2 rounded-full border border-accent-amber/40 bg-accent-amber/10 px-3.5 py-1.5 font-mono text-xs uppercase tracking-wide text-accent-amber">
+            <Trophy size={13} /> {project.award}
+          </div>
+        )}
+
         <p className="mt-5 max-w-md leading-relaxed text-ink-dim">{project.description}</p>
 
         {project.stats && project.stats.length > 0 && (
